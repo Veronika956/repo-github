@@ -1,8 +1,0 @@
-import UIKit
-
-let name = "Вероника Сазонова"
-let hight = 166
-let weight = 52
-let age = 23
-
-print("Имя студенета: \(name)\nВозраст: \(age)\nРост: \(hight)\nВес: \(weight) ")
