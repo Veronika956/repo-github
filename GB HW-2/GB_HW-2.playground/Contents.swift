@@ -1,8 +1,14 @@
 import UIKit
 
-var array  = [1,2,3,4,5,6,7,8,9,10]
+var array  = Array(1...100)
 
 //1
+func isDevidable (number: Int, by: Int) -> Bool {
+    return number % by == 0
+}
+isDevidable(number: 9 , by: 3)
+
+// var 2
 func even (n: Int, note: String) {
     for element in array {
         if element % n == 0 {
@@ -32,12 +38,20 @@ var a = 0
 
 
 //4
-var notEven = newArray.filter { $0 % 2 != 0}
-var c = notEven.filter { $0 % 3 != 0}
+var c = newArray.filter { $0 % 2 != 0 &&  $0 % 3 == 0}
 print (c)
-
+//
+/*var index = 0
+while index < array.count {
+    if array[index] % 2 == 0 || array[index] % 3 != 0{
+        array.remove(at: index)
+        index -= 1
+    }
+    index += 1
+}
+print (array)*/
 //5
-func fibbonachi(_ n: Int) -> Int{
+/*func fibbonachi(_ n: Int) -> Int{
      
     if n == 0{
          
@@ -47,7 +61,7 @@ func fibbonachi(_ n: Int) -> Int{
          
         return 1
     }
-    return fibbonachi(n-1) + fibbonachi(n-2)
+     return fibbonachi(n-1) + fibbonachi(n-2)
 }
 
 var numbers = [Int] ()
@@ -58,7 +72,17 @@ while numbers.count < 25 {
     numbers.append(z)
     l += 1
 }
-print ("Массив Фибоначчи\(numbers)")
+print ("Массив Фибоначчи\(numbers)")*/
+//
+func fiboArray(index: Int) -> [Int] {
+    var farray = [0,1]
+    for index in 2..<index {
+        farray.append(farray[index-2] + farray[index-1])
+    }
+    return farray
+    
+}
+print(fiboArray(index: 50))
 
  //6
 func isPrime(_ number: Int) -> Bool {
@@ -68,7 +92,7 @@ return number > 1 && !(2..<number).contains { number % $0 == 0 }
 var mumber = [Int]()
 
 var i = 0
-while mumber.count < 100 {
+while i < 100 {
     if isPrime(i) == true {
         mumber.append(i)
         i += 1
@@ -78,3 +102,17 @@ while mumber.count < 100 {
     }
 }
 print ("Массив простых чисел \(mumber)")
+
+//
+
+/*var set = Set(2...100)
+
+for value in set {
+    var indx = 2
+    while value * indx <= 100 {
+        set.remove(value * indx)
+        indx += 1
+    }
+    indx = 2
+}
+ print (set)*/
