@@ -1,12 +1,15 @@
 import UIKit
 
-protocol Weightable {
-    
+enum Errors: String, Error{
+    case arrayCountIsZero = "Фигур больше не осталось. Добавь еще."
+}
+
+protocol Figures {
     var weight: Double {get set}
     func calculatePerimetr() -> Double
 }
 
-class Circle: Weightable {
+class Circle: Figures {
     var radius: Double
     var weight: Double
     func calculatePerimetr() -> Double {
@@ -17,7 +20,7 @@ class Circle: Weightable {
         self.weight = weight
     }
 }
-class Rectangle: Weightable {
+class Rectangle: Figures {
     var sideA: Double
     var sideB: Double
     var weight: Double
@@ -30,25 +33,27 @@ class Rectangle: Weightable {
         self.weight = weight
     }
 }
-class Queue<U: Weightable> {
+class Queue<U: Figures> {
     var figures: [U] = []
     
     func push(_ figure: U) {
         figures.append(figure)
     }
     
-    func pop() -> U? {
-        guard figures.count > 0 else {return nil}
+    func pop() throws -> U? {
+        guard figures.count > 0 else {throw Errors.arrayCountIsZero }
         return figures.removeFirst()
     }
     
-    func totalWeight() -> Double {
+    func totalWeight() throws  -> Double {
         var weight = 0.0
+        guard figures.count > 0 else {throw Errors.arrayCountIsZero }
         for figure in figures {
             weight += figure.weight
         }
         return weight
     }
+    
     func totalPerimetr() -> Double {
         var totalPerimetr = 0.0
         figures.forEach { totalPerimetr += $0.calculatePerimetr() }
@@ -76,12 +81,37 @@ queueCircle.push(Circle(radius: 10, weight: 5))
 queueCircle.push(Circle(radius: 20, weight: 6))
 queueCircle.push(Circle(radius: 30, weight: 7))
 queueCircle.push(Circle(radius: 30, weight: 8))
-queueCircle.totalWeight()
+
+do {
+    try queueCircle.totalWeight()
+} catch {
+    print(Errors.arrayCountIsZero)
+}
+
 queueCircle.totalPerimetr()
 queueCircle[0]
-queueCircle.pop()
+try queueCircle.pop()
 queueCircle[0]
 var circle = Circle(radius: 10, weight: 5)
 circle.calculatePerimetr()
-queueCircle.totalWeight()
 
+do {
+    try queueCircle.totalWeight()
+} catch {
+    print(Errors.arrayCountIsZero)
+}
+
+do {
+    try queueCircle.pop()
+    try queueCircle.pop()
+    try queueCircle.pop()
+    try queueCircle.pop()
+    try queueCircle.pop()
+} catch {
+    print(Errors.arrayCountIsZero)
+}
+do {
+    try queueCircle.totalWeight()
+} catch {
+    print(Errors.arrayCountIsZero)
+}
