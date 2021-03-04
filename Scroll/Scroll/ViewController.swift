@@ -8,22 +8,27 @@
 import UIKit
 
 class ViewController: UIViewController {
-
     @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var loginButton: UIButton!
+    @IBOutlet weak var loginTextField: UITextField!
+    @IBOutlet weak var passwordTextField: UITextField!
     
-    /*override func viewDidLoad() {
+    
+    
+    override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardAppear), name: UIResponder.keyboardWillShowNotification, object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardDisappear), name: UIResponder.keyboardWillHideNotification, object: nil)
-    }*/
-
-    @IBAction func button(_ sender: Any) {
-        self.view.endEditing(true)
     }
     
-    /*var isExpand : Bool = false
+    @IBAction func loginButton(_ sender: Any) {
+        self.view.endEditing(true)
+    }
+
+    
+    var isExpand : Bool = false
     
     @objc func keyboardAppear(){
         print("Call")
@@ -40,7 +45,7 @@ class ViewController: UIViewController {
             self.scrollView.contentSize = CGSize(width: self.view.frame.width, height: self.scrollView.frame.height - 300)
             isExpand = false
         }
-    }*/
+    }
     
     override func viewWillDisappear(_ animated: Bool) {
             super.viewWillDisappear(animated)
@@ -68,5 +73,25 @@ class ViewController: UIViewController {
             let contentInsets = UIEdgeInsets.zero
             scrollView?.contentInset = contentInsets
         }
+    
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        let result = checkUserCredentials()
+        
+        if !result {
+            showAlert()
+        }
+        return result
+    }
+    
+    func checkUserCredentials() -> Bool {
+        return loginTextField.text! == "admin" && passwordTextField.text! == "123"
+    }
+    
+    func showAlert(){
+        let alert = UIAlertController(title: "Ошибка", message: "Введен неверный логин или пароль", preferredStyle: .alert)
+        let alertAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
+        alert.addAction(alertAction)
+        present(alert, animated: true, completion: nil)
+    }
 }
 
